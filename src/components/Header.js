@@ -1,0 +1,24 @@
+import {useLocation, Link, useNavigate} from 'react-router-dom'
+
+function Header(props){
+    const location = useLocation();
+    const navigate = useNavigate();
+    function signOut(){
+        localStorage.removeItem('jwt');
+        navigate('/sign-in');
+    }
+    return(
+        <header className="header">
+            <div className="logo logo_place_header"></div>
+            <div>
+                <p className='header__email'>{props.email}</p>
+                <button onClick={signOut} className="header__signout">Выйти</button>
+                {location.pathname === '/sign-up' && <Link to='/sign-in' className='header__button'>Войти</Link>}
+                {location.pathname === '/sign-in' && <Link to='/sign-up' className='header__button'>Регистрация</Link>}
+            </div>
+        </header>
+    )
+}
+    
+
+export default Header;
