@@ -1,0 +1,13 @@
+.popup__view{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 5;
+}
+@media screen and (min-width: 320px) and (max-width: 609px) {
+    .popup__view{
+        width: 282px;
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
+}

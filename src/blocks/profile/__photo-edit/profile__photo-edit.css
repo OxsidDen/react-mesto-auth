@@ -1,0 +1,20 @@
+.profile__photo-edit{
+    opacity: 0;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    margin-right: 30px;
+    background-image: url(../../../images/pen.svg);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    background-repeat: no-repeat;
+    background-position: center;
+    border-width: 0;
+    padding: 0;
+    background-size: 26px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.profile__photo-edit:hover{
+    opacity: 1;
+}

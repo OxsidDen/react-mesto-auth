@@ -1,0 +1,6 @@
+.element__like-zone{
+    display: flex;
+    flex-direction: column;
+    margin-top: 22px;
+    align-items: center;
+}
