@@ -10,12 +10,11 @@ import ImagePopup from "./ImagePopup.js";
 import api from "../utils/Api";
 import {CurrentUserContext, user} from "../contexts/CurrentUserContext"
 import React from 'react';
-import { Route, Routes, useNavigate, Navigate} from 'react-router-dom';
+import { Route, Routes, useNavigate} from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRouteElement from './ProtectedRoute.js';
 import * as auth from '../utils/Auth';
-import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   //  Создание хуков

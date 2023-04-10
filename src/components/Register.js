@@ -5,7 +5,6 @@ import InfoTooltip from './InfoTooltip';
 
 function Register(props) {
   const [isInfoToolOpen, setInfoToolOpen] = useState(false)
-
     const [formValue, setFormValue] = useState({
       email: '',
       password: '',
