@@ -10,12 +10,13 @@ function Header(props){
     return(
         <header className="header">
             <div className="logo logo_place_header"></div>
-            <div>
-                <p className='header__email'>{props.email}</p>
-                <button onClick={signOut} className="header__signout">Выйти</button>
+
+                {location.pathname === '/' && <div className='header__info'> 
+                    <p className='header__email'>{props.email}</p>
+                    <button onClick={signOut} className="header__signout">Выйти</button>
+                </div>}
                 {location.pathname === '/sign-up' && <Link to='/sign-in' className='header__button'>Войти</Link>}
                 {location.pathname === '/sign-in' && <Link to='/sign-up' className='header__button'>Регистрация</Link>}
-            </div>
         </header>
     )
 }

@@ -7,6 +7,9 @@
 @import url(./blocks/logo/logo.css);
 @import url(./blocks/logo/_place/logo_place_header.css);
 @import url(./blocks/header/__button/header__button.css);
+@import url(./blocks/header/__signout/header__signout.css);
+@import url(./blocks/header/__email/header__email.css);
+@import url(./blocks/header/__info/header__info.css);
 /* Стили для профиля */
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__about/profile__about.css);
@@ -65,3 +68,10 @@
 @import url(./blocks/register/__login-link/register__login-link.css);
 @import url(./blocks/register/__login-text/register__login-text.css);
 @import url(./blocks/./register/__signin/register__signin.css);
+
+@import url(./blocks/infotooltip/infoTooltip.css);
+@import url(./blocks/./infotooltip/__check/infotooltip__check.css);
+@import url(./blocks/infotooltip/__corect/infotooltip__corect.css);
+@import url(./blocks/infotooltip/__error/infotooltip__error.css);
+@import url(./blocks/infotooltip/__massage/infotooltip__massage.css);
+@import url(./blocks/infotooltip/__text/infotooltip__text.css);

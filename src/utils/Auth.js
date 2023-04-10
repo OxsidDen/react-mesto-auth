@@ -9,13 +9,15 @@ export const register = (email, password) => {
         },
         body: JSON.stringify({email, password})
     })
-    .then((response) => {
-        return response.json();
-    })
+    .then((res) =>{
+        if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(`Что-то пошло не так: ${res.status}`);
+        })
     .then((res) => {
         return res;
     })
-  .catch((err) => console.log(err));
 };
 export const authorize = (email, password) => {
     return fetch(`${BASE_URL}/signin`, {
@@ -26,7 +28,12 @@ export const authorize = (email, password) => {
         },
         body: JSON.stringify({email, password})
   })
-    .then((response => response.json()))
+    .then((res) =>{
+        if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(`Что-то пошло не так: ${res.status}`);
+        })
     .then((data) => {
         if (data){
             localStorage.setItem('jwt', data.token);
@@ -46,4 +53,5 @@ export const checkToken = (token) => {
     })
     .then(res => res.json())
     .then(data => data)
+    .catch(err => console.log(err))
 }

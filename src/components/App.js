@@ -15,6 +15,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRouteElement from './ProtectedRoute.js';
 import * as auth from '../utils/Auth';
+import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   //  Создание хуков
@@ -25,7 +26,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(user);
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState();
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState('');
+  const navigate = useNavigate(false);
 
   
   useEffect(() => {
@@ -33,13 +35,14 @@ function App() {
   }, [])
 
   const handleTokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
     if (localStorage.getItem('jwt')){
+      const jwt = localStorage.getItem('jwt');
       auth.checkToken(jwt)
         .then((res) => {
           if (res){
             setLoggedIn(true);
             navigate("/", {replace: true})
+            setUserData(res.data.email);
           }
         })
         .catch((err) => { 
@@ -151,6 +154,7 @@ function App() {
   function handleCardClick(item){
     setSelectedCard(item)
   }
+  
   //   Закрытие попапов
   function closeAllPopups(){
     setEditAvatarPopupOpen(false)
@@ -164,11 +168,10 @@ function App() {
   return (
     < CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header email={userData}/>
       <Routes>
-        <Route path="/" element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-in" replace />} />
-        <Route path='/sign-in' element={<Login handleLogin={handleLogin}></Login>}/>
-        <Route path='/sign-up' element={<Register></Register>}/>
+        <Route path='/sign-in' element={<Login handleLogin={handleLogin}/>}/>
+        <Route path='/sign-up' element={<Register/>}/>
         <Route path="/"
           element={
             <ProtectedRouteElement
