@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import * as auth from '../utils/Auth';
+
 import InfoTooltip from './InfoTooltip';
 
-function Login({handleLogin}) {
+function Login(props) {
   const [isInfoToolOpen, setInfoToolOpen] = useState(false)
   const [formValue, setFormValue] = useState({
     email: '',
     password: ''
   })
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
     const {name, value} = e.target;
 
@@ -24,18 +21,8 @@ function Login({handleLogin}) {
     if (!formValue.email || !formValue.password){
       return;
     }
-    auth.authorize(formValue.email, formValue.password)
-      .then((data) => {
-        if (data.token){
-          setFormValue({email: '', password: ''});
-          handleLogin();
-          navigate('/', {replace: true});
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        setInfoToolOpen(true)
-      });
+    setFormValue({email: '', password: ''});
+    props.handleLogin(formValue.email, formValue.password)
   }
   function handleCloseTool(){
     setInfoToolOpen(false)

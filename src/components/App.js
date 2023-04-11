@@ -15,6 +15,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRouteElement from './ProtectedRoute.js';
 import * as auth from '../utils/Auth';
+import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   //  Создание хуков
@@ -27,7 +28,8 @@ function App() {
   const [loggedIn, setLoggedIn] = useState();
   const [userData, setUserData] = useState('');
   const navigate = useNavigate(false);
-
+  const [isInfoToolOpen, setInfoToolOpen] = useState(false)
+  const [isCorect, setCorect] = useState(false)
   
   useEffect(() => {
     handleTokenCheck();
@@ -140,6 +142,36 @@ function App() {
         console.log(err); 
     }); 
   }
+  function handleRejister(email , password){
+    auth.register(email, password)
+      .then(() => {
+        setCorect(true);
+        setInfoToolOpen(true);
+        navigate('/sign-in', {replace: true}) 
+      })
+        .catch((err) => {
+          setCorect(false);
+          setInfoToolOpen(true);
+          console.log(err)
+        })
+  }
+  function handleLogin(email, password){
+    
+    auth.authorize(email, password)
+      .then((data) => {
+        if (data.token){
+          navigate('/', {replace: true});
+          setLoggedIn(true);
+          setCorect(true);
+          setInfoToolOpen(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setCorect(false);
+        setInfoToolOpen(true)
+      });
+  }
   // Открытие попапов
   function handleEditAvatarClick(){
     setEditAvatarPopupOpen(true)
@@ -160,17 +192,21 @@ function App() {
     setEditProfilePopupOpen(false)
     setAddPlacePopupOpen(false)
     setSelectedCard(null)
-  }
-  const handleLogin = () => {
-    setLoggedIn(true);
+    setInfoToolOpen(false)
   }
   return (
     < CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header email={userData}/>
       <Routes>
-        <Route path='/sign-in' element={<Login handleLogin={handleLogin}/>}/>
-        <Route path='/sign-up' element={<Register/>}/>
+        <Route path='/sign-in' element={
+          <Login 
+            handleLogin={handleLogin}
+          />}/>
+        <Route path='/sign-up' element={
+          <Register
+          handleRejester={handleRejister}
+        />}/>
         <Route path="/"
           element={
             <ProtectedRouteElement
@@ -208,6 +244,11 @@ function App() {
           onClose={closeAllPopups} 
           onUpdateAvatar={handleUpdateAvatar}
         /> 
+        <InfoTooltip
+          isOpen={isInfoToolOpen}
+          onClose={closeAllPopups}
+          isCorect={isCorect}
+        />
         <template id="templateCard">
           
         </template>
@@ -216,5 +257,6 @@ function App() {
     
   );
 }
+
 
 export default App;
