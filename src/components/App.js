@@ -33,7 +33,6 @@ function App() {
     email: '',
     password: ''
   })
-
   
   useEffect(() => {
     handleTokenCheck();
@@ -73,6 +72,7 @@ function App() {
         .then((res) => {
           if (res){
             setLoggedIn(true);
+            formValue.email = res.data.email
             navigate("/", {replace: true})
           }
         })
@@ -171,8 +171,9 @@ function App() {
         console.log(err);
         setCorect(false);
         setInfoToolOpen(true)
-      });
+      }); 
   }
+  
   // Открытие попапов
   function handleEditAvatarClick(){
     setEditAvatarPopupOpen(true)
