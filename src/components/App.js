@@ -25,15 +25,46 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState(user);
   const [cards, setCards] = useState([]);
-  const [loggedIn, setLoggedIn] = useState();
-  const [userData, setUserData] = useState('');
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate(false);
   const [isInfoToolOpen, setInfoToolOpen] = useState(false)
-  const [isCorect, setCorect] = useState(false)
+  const [isCorect, setCorect] = useState(false);
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: ''
+  })
+
   
   useEffect(() => {
     handleTokenCheck();
   }, [])
+
+  useEffect(() => {
+    if(isLoggedIn === true){
+      api.getCards()
+      .then((data) => {
+          setCards(
+              data.map((item) => ({
+                  _id: item._id,
+                  link: item.link,
+                  name: item.name,
+                  likes: item.likes,
+                  owner: item.owner
+              }))
+          )
+      })
+      .catch((err) => {
+          console.log(err); 
+      }); 
+      api.getProfile()
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => { 
+        console.log(err); 
+      }) 
+    }
+  }, [isLoggedIn]);
 
   const handleTokenCheck = () => {
     if (localStorage.getItem('jwt')){
@@ -43,7 +74,6 @@ function App() {
           if (res){
             setLoggedIn(true);
             navigate("/", {replace: true})
-            setUserData(res.data.email);
           }
         })
         .catch((err) => { 
@@ -51,34 +81,6 @@ function App() {
         }) 
       }
   }
-
-  useEffect(() => {
-    api.getProfile()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => { 
-        console.log(err); 
-      }) 
-  }, [])
-
-  useEffect(() => {
-    api.getCards()
-        .then((data) => {
-            setCards(
-                data.map((item) => ({
-                    _id: item._id,
-                    link: item.link,
-                    name: item.name,
-                    likes: item.likes,
-                    owner: item.owner
-                }))
-            )
-        })
-        .catch((err) => {
-            console.log(err); 
-        }); 
-  }, []);
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -156,7 +158,6 @@ function App() {
         })
   }
   function handleLogin(email, password){
-    
     auth.authorize(email, password)
       .then((data) => {
         if (data.token){
@@ -197,15 +198,22 @@ function App() {
   return (
     < CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header email={userData}/>
+        <Header 
+          email={formValue.email}
+          setFormValue={setFormValue}
+        />
       <Routes>
         <Route path='/sign-in' element={
           <Login 
             handleLogin={handleLogin}
+            formValue={formValue}
+            setFormValue={setFormValue}
           />}/>
         <Route path='/sign-up' element={
           <Register
-          handleRejester={handleRejister}
+            handleRejester={handleRejister}
+            formValue={formValue}
+            setFormValue={setFormValue}
         />}/>
         <Route path="/"
           element={
@@ -218,7 +226,7 @@ function App() {
                 cards={cards}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
-                loggedIn={loggedIn}
+                loggedIn={isLoggedIn}
             />
           }
         />
