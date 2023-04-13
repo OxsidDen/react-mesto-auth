@@ -29,10 +29,7 @@ function App() {
   const navigate = useNavigate(false);
   const [isInfoToolOpen, setInfoToolOpen] = useState(false)
   const [isCorect, setCorect] = useState(false);
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: ''
-  })
+  const[email, setEmail] = useState('')
   
   useEffect(() => {
     handleTokenCheck();
@@ -72,7 +69,7 @@ function App() {
         .then((res) => {
           if (res){
             setLoggedIn(true);
-            formValue.email = res.data.email
+            setEmail(res.data.email)
             navigate("/", {replace: true})
           }
         })
@@ -165,6 +162,7 @@ function App() {
           setLoggedIn(true);
           setCorect(true);
           setInfoToolOpen(true);
+          setEmail(email)
         }
       })
       .catch((err) => {
@@ -187,7 +185,7 @@ function App() {
   function handleCardClick(item){
     setSelectedCard(item)
   }
-  
+
   //   Закрытие попапов
   function closeAllPopups(){
     setEditAvatarPopupOpen(false)
@@ -200,21 +198,16 @@ function App() {
     < CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header 
-          email={formValue.email}
-          setFormValue={setFormValue}
+          email={email}
         />
       <Routes>
         <Route path='/sign-in' element={
           <Login 
             handleLogin={handleLogin}
-            formValue={formValue}
-            setFormValue={setFormValue}
           />}/>
         <Route path='/sign-up' element={
           <Register
             handleRejester={handleRejister}
-            formValue={formValue}
-            setFormValue={setFormValue}
         />}/>
         <Route path="/"
           element={

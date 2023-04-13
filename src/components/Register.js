@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 
-function Register({handleRejester, formValue, setFormValue}) {
-  
+function Register({handleRejester}) {
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: ''
+  })  
     const handleChange = (e) => {
       const {name, value} = e.target;
       setFormValue({

@@ -6,7 +6,6 @@ function Header(props){
     function signOut(){
         localStorage.removeItem('jwt');
         navigate('/sign-in');
-        props.setFormValue({email: '', password: ''});
     }
     return(
         <header className="header">

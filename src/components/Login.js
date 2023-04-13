@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 
-function Login({handleLogin, formValue, setFormValue}) {
-  
+function Login({handleLogin}) {
+
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: ''
+  });
   const handleChange = (e) => {
     const {name, value} = e.target;
     setFormValue({
       ...formValue,
       [name]: value
     });
-  }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formValue.email || !formValue.password){
